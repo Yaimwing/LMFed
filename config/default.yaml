@@ -1,15 +1,15 @@
 model:
   model_name: bert-base-uncased
-  num_experts: 2
+  num_experts: 4
   moe_hidden_dim: 512
   lora_rank: 4
-  num_classes: 2
+  num_classes: 3
   lr: 5e-5 
 
 training:
-  rounds: 1
-  local_epochs: 1
-  batch_size: 2
+  rounds: 30
+  local_epochs: 5
+  batch_size: 8
 
 clients:
   - name: FedAvg

@@ -11,7 +11,7 @@ import importlib
 from torch.utils.tensorboard import SummaryWriter
 
 from dataset.dataset_manager import FederatedDatasetManager
-from utils.logger import Logger
+from utils.logger import ExperimentLogger
 from utils.metric import MetricCalculator
 
 
@@ -33,10 +33,10 @@ def get_server_class(class_name):
 
 def run_experiment(client_class, server_class, model_args, label, rounds, local_epochs, lr):
     writer = SummaryWriter(log_dir=f"runs/{label}")
-    logger = Logger(experiment_name=label)
-    manager = FederatedDatasetManager()
-    client_datasets = manager.prepare_all_clients()
-
+    logger = ExperimentLogger(experiment_name=label)
+    dataset = FederatedDatasetManager(num_clients=10, sample_size=5000, batch_size=32)
+    client_datasets = dataset.prepare_all_clients()
+    
     clients = []
     for cid, ds in client_datasets.items():
         args = model_args.copy()
